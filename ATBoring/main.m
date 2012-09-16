@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AT_BoringAppDelegate.h"
+#import "ATBoringAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AT_BoringAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([ATBoringAppDelegate class]));
     }
 }

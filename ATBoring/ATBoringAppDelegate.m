@@ -6,11 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AT_BoringAppDelegate.h"
+#import "ATBoringAppDelegate.h"
+#import "ATBoringViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
 
-#import "AT_BoringViewController.h"
 
-@implementation AT_BoringAppDelegate
+@implementation ATBoringAppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
@@ -19,9 +20,16 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[AT_BoringViewController alloc] initWithNibName:@"AT_BoringViewController" bundle:nil];
+    self.viewController = [[ATBoringViewController alloc] initWithNibName:@"ATBoringViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    DBSession* dbSession = [[DBSession alloc]
+                                 initWithAppKey:@"joublovg3fhl8mf"     //atr dropbox
+                                 appSecret:@"p38y93hldvff5zz"
+                            root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox    
+    [DBSession setSharedSession:dbSession];
+    
+
     return YES;
 }
 
@@ -63,5 +71,18 @@
      See also applicationDidEnterBackground:.
      */
 }
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {   //from dropbox
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked successfully!");
+            // At this point you can start making API calls
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
+}
+
 
 @end

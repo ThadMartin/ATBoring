@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		72930ED01601303200ECB1B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ECF1601303200ECB1B9 /* UIKit.framework */; };
+		72930ED21601303200ECB1B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ED11601303200ECB1B9 /* Foundation.framework */; };
+		72930ED41601303200ECB1B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ED31601303200ECB1B9 /* CoreGraphics.framework */; };
+		72A938371604C9D2005EECAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A938361604C9D2005EECAB /* QuartzCore.framework */; };
+		72A938391604C9DB005EECAB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A938381604C9DB005EECAB /* Security.framework */; };
+		72B0ACA8160572F5003A36DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72B0AC9F160572F5003A36DF /* InfoPlist.strings */; };
+		72B0ACA9160572F5003A36DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B0ACA1160572F5003A36DF /* main.m */; };
+		72B0ACAA160572F5003A36DF /* scratchPadDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B0ACA3160572F5003A36DF /* scratchPadDraw.m */; };
+		72B0ACAF160573B9003A36DF /* ATBoringAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B0ACAC160573B9003A36DF /* ATBoringAppDelegate.m */; };
+		72B0ACB0160573B9003A36DF /* ATBoringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B0ACAE160573B9003A36DF /* ATBoringViewController.m */; };
+		72B0ACB2160575CB003A36DF /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72B0ACB1160575CB003A36DF /* DropboxSDK.framework */; };
+		72B0ACB816057845003A36DF /* ATBoringViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72B0ACB616057845003A36DF /* ATBoringViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		72930ECB1601303200ECB1B9 /* ATBoring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATBoring.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		72930ECF1601303200ECB1B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		72930ED11601303200ECB1B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		72930ED31601303200ECB1B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		72A938361604C9D2005EECAB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		72A938381604C9DB005EECAB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		72B0AC9A160572F5003A36DF /* ATBoring-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ATBoring-Info.plist"; path = "ATBoring/ATBoring-Info.plist"; sourceTree = SOURCE_ROOT; };
+		72B0AC9B160572F5003A36DF /* ATBoring-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ATBoring-Prefix.pch"; path = "ATBoring/ATBoring-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		72B0ACA0160572F5003A36DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		72B0ACA1160572F5003A36DF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ATBoring/main.m; sourceTree = SOURCE_ROOT; };
+		72B0ACA2160572F5003A36DF /* scratchPadDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scratchPadDraw.h; path = ATBoring/scratchPadDraw.h; sourceTree = SOURCE_ROOT; };
+		72B0ACA3160572F5003A36DF /* scratchPadDraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = scratchPadDraw.m; path = ATBoring/scratchPadDraw.m; sourceTree = SOURCE_ROOT; };
+		72B0ACAB160573B9003A36DF /* ATBoringAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATBoringAppDelegate.h; path = ATBoring/ATBoringAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		72B0ACAC160573B9003A36DF /* ATBoringAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATBoringAppDelegate.m; path = ATBoring/ATBoringAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		72B0ACAD160573B9003A36DF /* ATBoringViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATBoringViewController.h; path = ATBoring/ATBoringViewController.h; sourceTree = SOURCE_ROOT; };
+		72B0ACAE160573B9003A36DF /* ATBoringViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATBoringViewController.m; path = ATBoring/ATBoringViewController.m; sourceTree = SOURCE_ROOT; };
+		72B0ACB1160575CB003A36DF /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		72B0ACB716057845003A36DF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = ATBoring/en.lproj/ATBoringViewController.xib; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		72930EC81601303200ECB1B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72A938391604C9DB005EECAB /* Security.framework in Frameworks */,
+				72A938371604C9D2005EECAB /* QuartzCore.framework in Frameworks */,
+				72930ED01601303200ECB1B9 /* UIKit.framework in Frameworks */,
+				72930ED21601303200ECB1B9 /* Foundation.framework in Frameworks */,
+				72930ED41601303200ECB1B9 /* CoreGraphics.framework in Frameworks */,
+				72B0ACB2160575CB003A36DF /* DropboxSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		72930EC01601303200ECB1B9 = {
+			isa = PBXGroup;
+			children = (
+				72930ED51601303200ECB1B9 /* ATBoring */,
+				72930ECE1601303200ECB1B9 /* Frameworks */,
+				72930ECC1601303200ECB1B9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		72930ECC1601303200ECB1B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				72930ECB1601303200ECB1B9 /* ATBoring.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		72930ECE1601303200ECB1B9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				72B0ACB1160575CB003A36DF /* DropboxSDK.framework */,
+				72A938361604C9D2005EECAB /* QuartzCore.framework */,
+				72A938381604C9DB005EECAB /* Security.framework */,
+				72930ECF1601303200ECB1B9 /* UIKit.framework */,
+				72930ED11601303200ECB1B9 /* Foundation.framework */,
+				72930ED31601303200ECB1B9 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		72930ED51601303200ECB1B9 /* ATBoring */ = {
+			isa = PBXGroup;
+			children = (
+				72B0ACAB160573B9003A36DF /* ATBoringAppDelegate.h */,
+				72B0ACAC160573B9003A36DF /* ATBoringAppDelegate.m */,
+				72B0ACAD160573B9003A36DF /* ATBoringViewController.h */,
+				72B0ACAE160573B9003A36DF /* ATBoringViewController.m */,
+				72B0ACB616057845003A36DF /* ATBoringViewController.xib */,
+				72B0AC9C160572F5003A36DF /* en.lproj */,
+				72B0ACA2160572F5003A36DF /* scratchPadDraw.h */,
+				72B0ACA3160572F5003A36DF /* scratchPadDraw.m */,
+				72930ED61601303200ECB1B9 /* Supporting Files */,
+			);
+			name = ATBoring;
+			path = AT_Boring;
+			sourceTree = "<group>";
+		};
+		72930ED61601303200ECB1B9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				72B0AC9A160572F5003A36DF /* ATBoring-Info.plist */,
+				72B0ACA1160572F5003A36DF /* main.m */,
+				72B0AC9B160572F5003A36DF /* ATBoring-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		72B0AC9C160572F5003A36DF /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				72B0AC9F160572F5003A36DF /* InfoPlist.strings */,
+			);
+			name = en.lproj;
+			path = ATBoring/en.lproj;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		72930ECA1601303200ECB1B9 /* ATBoring */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72930EE91601303200ECB1B9 /* Build configuration list for PBXNativeTarget "ATBoring" */;
+			buildPhases = (
+				72930EC71601303200ECB1B9 /* Sources */,
+				72930EC81601303200ECB1B9 /* Frameworks */,
+				72930EC91601303200ECB1B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ATBoring;
+			productName = AT_Boring;
+			productReference = 72930ECB1601303200ECB1B9 /* ATBoring.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		72930EC21601303200ECB1B9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 72930EC51601303200ECB1B9 /* Build configuration list for PBXProject "ATBoring" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 72930EC01601303200ECB1B9;
+			productRefGroup = 72930ECC1601303200ECB1B9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				72930ECA1601303200ECB1B9 /* ATBoring */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		72930EC91601303200ECB1B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72B0ACA8160572F5003A36DF /* InfoPlist.strings in Resources */,
+				72B0ACB816057845003A36DF /* ATBoringViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		72930EC71601303200ECB1B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72B0ACA9160572F5003A36DF /* main.m in Sources */,
+				72B0ACAA160572F5003A36DF /* scratchPadDraw.m in Sources */,
+				72B0ACAF160573B9003A36DF /* ATBoringAppDelegate.m in Sources */,
+				72B0ACB0160573B9003A36DF /* ATBoringViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		72B0AC9F160572F5003A36DF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				72B0ACA0160572F5003A36DF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		72B0ACB616057845003A36DF /* ATBoringViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				72B0ACB716057845003A36DF /* en */,
+			);
+			name = ATBoringViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		72930EE71601303200ECB1B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		72930EE81601303200ECB1B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		72930EEA1601303200ECB1B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ATBoring/ATBoring-Prefix.pch";
+				INFOPLIST_FILE = "ATBoring/ATBoring-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = ATBoring;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		72930EEB1601303200ECB1B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ATBoring/ATBoring-Prefix.pch";
+				INFOPLIST_FILE = "ATBoring/ATBoring-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = ATBoring;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		72930EC51601303200ECB1B9 /* Build configuration list for PBXProject "ATBoring" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72930EE71601303200ECB1B9 /* Debug */,
+				72930EE81601303200ECB1B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72930EE91601303200ECB1B9 /* Build configuration list for PBXNativeTarget "ATBoring" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72930EEA1601303200ECB1B9 /* Debug */,
+				72930EEB1601303200ECB1B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 72930EC21601303200ECB1B9 /* Project object */;
+}

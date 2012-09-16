@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class AT_BoringViewController;
+@class ATBoringViewController;
 
-@interface AT_BoringAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ATBoringAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) AT_BoringViewController *viewController;
+@property (strong, nonatomic) ATBoringViewController *viewController;
 
 @end
