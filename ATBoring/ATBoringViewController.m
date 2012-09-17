@@ -27,6 +27,8 @@
     int numOfProblems;
     bool showingSolution;
     NSString * logFile;
+    UIView * ansView;
+    UIImage * ansImage;
 }
 
 
@@ -89,12 +91,16 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+//    if (!restClient && [[DBSession sharedSession] isLinked]) {
+//        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+//        restClient.delegate = self;
+//    }
     if (!restClient) {
         restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        restClient.delegate = self;
     }
-    restClient.delegate = self;
-    
-    
+
     NSString *URLString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
     if ( URLString != NULL ){  //we are online, link dropbox and upload or download.
         online = true;
@@ -148,12 +154,9 @@
         [self.view addSubview:drawScreen];
         
         //put the answer box in place.
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(384,850,self.view.bounds.size.width, 1)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,700,self.view.bounds.size.width, 1)];
         lineView.backgroundColor = [UIColor blackColor];
         [drawScreen addSubview:lineView];        
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(384,850,1,self.view.bounds.size.height)];
-        lineView.backgroundColor = [UIColor blackColor];
-        [drawScreen addSubview:lineView];
         
         NSDate * myDate = [NSDate date];
         NSDateFormatter * df = [NSDateFormatter new];
@@ -285,6 +288,13 @@
     solutionImg.contentMode = UIViewContentModeCenter;  //default autoresize doesn't look good.
     [solutionImg setImage:theImage];
     [self.view addSubview:solutionImg];
+    UIImageView * showAns = [[UIImageView alloc] initWithFrame:CGRectMake(0,739,ansImage.size.width,ansImage.size.height)];  
+    [showAns setImage:ansImage];
+    [self.view addSubview:showAns];
+    
+    
+    
+    
 }
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
@@ -338,7 +348,10 @@
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
     NSLog(@"Error loading metadata: %@", error);
-}
+    [[DBSession sharedSession] unlinkAll]; 
+    restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+    restClient.delegate = self;
+    }
 
 - (IBAction)clearButtonPressed:(id)sender {
     
@@ -378,12 +391,9 @@
         [self.view addSubview:drawScreen];
         
         //put the answer box back in place.
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(384,850,self.view.bounds.size.width, 1)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,700,self.view.bounds.size.width, 1)];
         lineView.backgroundColor = [UIColor blackColor];
         [drawScreen addSubview:lineView];        
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(384,850,1,self.view.bounds.size.height)];
-        lineView.backgroundColor = [UIColor blackColor];
-        [drawScreen addSubview:lineView];
     }
     
 }
@@ -401,9 +411,13 @@
             UIView * saveView = self.view;
             UIGraphicsBeginImageContext(saveView.bounds.size);
             [saveView.layer renderInContext:UIGraphicsGetCurrentContext()];
-            UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
+            UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
+            CGRect rect = CGRectMake(0,739,viewImage.size.width,viewImage.size.height);  //this should be where the answer box is.
+            CGImageRef subImageRef = CGImageCreateWithImageInRect([viewImage CGImage], rect);
+            ansImage = [UIImage imageWithCGImage:subImageRef];
             
+            UIGraphicsEndImageContext();
+
             NSDate *myDate = [NSDate date];
             NSDateFormatter *df = [NSDateFormatter new];
             [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
@@ -411,7 +425,7 @@
             
             NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@.jpg",[[UIDevice currentDevice] name], nowDate];
             NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
-            [UIImageJPEGRepresentation(viewImage, 1.0) writeToFile:localFilePath atomically:YES];
+            [UIImageJPEGRepresentation(ansImage, 1.0) writeToFile:localFilePath atomically:YES];
             
             NSString * logline = [NSString stringWithFormat:@"problem %d submitted at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
             logFile = [logFile stringByAppendingString:logline];
@@ -451,12 +465,9 @@
                 [self.view addSubview:drawScreen];
                 
                 //put the answer box in place.
-                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(384,850,self.view.bounds.size.width, 1)];
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,700,self.view.bounds.size.width, 1)];
                 lineView.backgroundColor = [UIColor blackColor];
                 [drawScreen addSubview:lineView];        
-                lineView = [[UIView alloc] initWithFrame:CGRectMake(384,850,1,self.view.bounds.size.height)];
-                lineView.backgroundColor = [UIColor blackColor];
-                [drawScreen addSubview:lineView];
                 
                 NSDate * myDate = [NSDate date];
                 NSDateFormatter * df = [NSDateFormatter new];
