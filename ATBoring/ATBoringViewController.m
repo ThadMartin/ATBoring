@@ -92,15 +92,17 @@
 {
     [super viewDidAppear:animated];
     
-//    if (!restClient && [[DBSession sharedSession] isLinked]) {
-//        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-//        restClient.delegate = self;
-//    }
+    //    if (!restClient && [[DBSession sharedSession] isLinked]) {
+    //        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+    //        restClient.delegate = self;
+    //    }
     if (!restClient) {
         restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
         restClient.delegate = self;
     }
-
+    
+    NSLog(@"view did appear ran.");
+    
     NSString *URLString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
     if ( URLString != NULL ){  //we are online, link dropbox and upload or download.
         online = true;
@@ -145,16 +147,16 @@
         NSString * problemText = [currentProblemDict objectForKey:@"start"];
         //NSLog(@"current problem:  %@",problemText);
         
-        NSString * solveText = [NSString stringWithFormat:@"Solve:  %@",problemText];
+        NSString * solveText = [NSString stringWithFormat:@"Simplify:  %@",problemText];
         
         self.problemLabel.text = solveText;
         [self.view setBackgroundColor:[UIColor whiteColor]];
         
-        drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 40, 768, 1004)];
+        drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 100, 768, 1004)];
         [self.view addSubview:drawScreen];
         
         //put the answer box in place.
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,700,self.view.bounds.size.width, 1)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,640,self.view.bounds.size.width, 1)];
         lineView.backgroundColor = [UIColor blackColor];
         [drawScreen addSubview:lineView];        
         
@@ -218,6 +220,226 @@
     exit(0);
 }
 
+- (void)showSolution{
+    
+    showingSolution = true;
+    
+    [clearButton setHidden:true];
+    
+    for(UIView *view in [self.view subviews])
+    {
+        if(![view isKindOfClass:[UIButton class]]&&![view isKindOfClass:[UILabel class]])
+            [view removeFromSuperview];
+
+    }
+    
+    UIImageView * solutionImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 100, 768, 640)];
+    NSString * imgName = [currentProblemDict objectForKey:@"solution"];
+    imgName = [docPath stringByAppendingPathComponent:imgName];
+    //NSLog(@"imgName: %@ ",imgName);
+    UIImage * theImage = [UIImage imageWithContentsOfFile:imgName];
+    //solutionImg.contentMode = UIViewContentModeCenter;  //default autoresize doesn't look good.
+    solutionImg.contentMode = UIViewContentModeScaleAspectFit;
+    [solutionImg setImage:theImage];
+    [self.view addSubview:solutionImg];
+    UIImageView * showAns = [[UIImageView alloc] initWithFrame:CGRectMake(0,739,ansImage.size.width,ansImage.size.height)];  
+    [showAns setImage:ansImage];
+    [self.view addSubview:showAns];
+    ansImage = nil;
+    ansView = nil;
+    showAns = nil;
+    solutionImg = nil;
+    theImage = nil;
+    
+}
+
+- (IBAction)clearButtonPressed:(id)sender {
+    
+    if(online && linkedDB){  //this is the download button now.
+        //NSLog(@"downloading");
+        [self performSelector:@selector(downloadDB) withObject:sender afterDelay:0.0];
+    }
+    else{    
+        //save cleared...
+        
+        UIView * saveView = self.view;
+        UIGraphicsBeginImageContext(saveView.bounds.size);
+        [saveView.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        NSDate *myDate = [NSDate date];
+        NSDateFormatter *df = [NSDateFormatter new];
+        [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
+        NSString * nowDate =  [df stringFromDate:myDate];
+        
+        df = nil;
+        
+        NSString * fileName = [NSString stringWithFormat: @"ATBoring_Cleared_%@__%@.png",[[UIDevice currentDevice] name], nowDate];
+        NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
+        //[UIImagePNGRepresentation(viewImage) writeToFile:localFilePath atomically:YES];
+        
+        NSData * savePic = UIImagePNGRepresentation(viewImage);
+        [savePic writeToFile:fileName atomically:YES];
+
+        savePic = nil;
+        fileName = nil;
+        
+        viewImage = nil;
+        saveView = nil;
+        myDate = nil;
+        localFilePath = nil;
+        
+        NSString * logline = [NSString stringWithFormat:@"problem %d cleared at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
+        logFile = [logFile stringByAppendingString:logline];
+        
+        nowDate = nil;
+        fileName = nil;
+        
+        // and clear the scratchpad.
+        for(UIView *view in [self.view subviews])
+        {
+            if(![view isKindOfClass:[UIButton class]]&&![view isKindOfClass:[UILabel class]])
+                [view removeFromSuperview];
+        }
+        
+        drawScreen = nil;
+        
+        drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 100, 768, 1004)];
+        [self.view addSubview:drawScreen];
+        
+        //put the answer box back in place.
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,640,self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor blackColor];
+        [drawScreen addSubview:lineView]; 
+        
+        lineView = nil;
+        drawScreen = nil;
+        lineView = nil;
+    }
+    
+}
+
+- (IBAction)continueButtonPressed:(id)sender {
+    
+    if(online && linkedDB)  //this is the upload button now.
+        [self performSelector:@selector(uploadDB) withObject:sender afterDelay:0.0];
+    else{ 
+        
+        if (! showingSolution){
+            
+            //save
+            
+            UIView * saveView = self.view;
+            UIGraphicsBeginImageContext(saveView.bounds.size);
+            [saveView.layer renderInContext:UIGraphicsGetCurrentContext()];
+            UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
+            CGRect rect = CGRectMake(0,739,viewImage.size.width,viewImage.size.height);  //this should be where the answer box is.
+            CGImageRef subImageRef = CGImageCreateWithImageInRect([viewImage CGImage], rect);
+            
+            ansImage = [UIImage imageWithCGImage:subImageRef];
+            
+            CFRelease(subImageRef);
+            
+            //ansImage = [UIImage imageWithCGImage:(CGImageCreateWithImageInRect([viewImage CGImage], CGRectMake(0,739,viewImage.size.width,viewImage.size.height)))];
+            
+            UIGraphicsEndImageContext();
+            
+            NSDate *myDate = [NSDate date];
+            NSDateFormatter *df = [NSDateFormatter new];
+            [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
+            NSString * nowDate =  [df stringFromDate:myDate];
+            
+            NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@.png",[[UIDevice currentDevice] name], nowDate];
+            NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
+            //[UIImagePNGRepresentation(viewImage) writeToFile:localFilePath atomically:YES];
+            
+            NSData * savePic = UIImagePNGRepresentation(viewImage);
+            
+            [savePic writeToFile:fileName atomically:YES];
+            
+            savePic = nil;
+            
+            
+            viewImage = nil;
+            
+            NSString * logline = [NSString stringWithFormat:@"problem %d submitted at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
+            logFile = [logFile stringByAppendingString:logline];
+            NSLog(@"logline  %@",logline);
+            
+            saveView = nil;
+            viewImage = nil;
+            //ansImage = nil;
+            ansView = nil;
+            myDate = nil;
+            df = nil;
+            nowDate = nil;
+            fileName = nil;
+            localFilePath = nil;
+            logline = nil;
+            
+            [self performSelector:@selector(showSolution) withObject:sender afterDelay:0.0];
+        }
+        if(showingSolution){
+            showingSolution = false;
+            [clearButton setHidden:false];
+            for(UIView *view in [self.view subviews])
+            {
+                if(![view isKindOfClass:[UIButton class]]&&![view isKindOfClass:[UILabel class]])
+                    [view removeFromSuperview];
+            }
+            currentProblem ++;
+            
+            if (currentProblem > numOfProblems){
+                self.problemLabel.text = @"Thank you, that is all.";
+                [self performSelector:@selector(leave) withObject:sender afterDelay:0.0];
+            }
+            
+            else{  // here we present the next problem.
+                
+                
+                currentProblemDict = [problemList objectAtIndex:currentProblem-1 ];
+                
+                NSString * problemText = [currentProblemDict objectForKey:@"start"];
+                
+                NSString * solveText = [NSString stringWithFormat:@"Simplify:  %@",problemText];
+                
+                self.problemLabel.text = solveText;
+                
+                [self.view setBackgroundColor:[UIColor whiteColor]];
+                
+                drawScreen = nil;
+                
+                drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 100, 768, 1004)];
+                [self.view addSubview:drawScreen];
+                
+                //put the answer box in place.
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,640,self.view.bounds.size.width, 1)];
+                lineView.backgroundColor = [UIColor blackColor];
+                [drawScreen addSubview:lineView]; 
+                
+                NSDate * myDate = [NSDate date];
+                NSDateFormatter * df = [NSDateFormatter new];
+                [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
+                NSString * nowDate =  [df stringFromDate:myDate];
+                NSString * logline = [NSString stringWithFormat:@"problem %d presented at: %@\n",currentProblem,nowDate];
+                logFile = [logFile stringByAppendingString:logline];
+                NSLog(@"logline  %@",logline);
+                
+                problemText = nil;
+                solveText = nil;
+                drawScreen = nil;
+                lineView = nil;
+                myDate = nil;
+                df = nil;
+                nowDate = nil;
+                logline = nil;
+                
+            }//not at the end of problems
+        }//end of present next problem
+    }//end of upload
+}
+
 
 - (void)downloadDB{
     
@@ -249,7 +471,7 @@
     
     for (NSString * fileName in filelist){  //pick out the .jpg and .txt files, but not the solutions that are named Silde.
         if([fileName hasSuffix:@".jpg"]||[fileName hasSuffix:@".txt"]){
-            if(! [fileName hasPrefix:@"Slide"])
+            if(! ([fileName hasPrefix:@"Slide"]||[fileName hasPrefix:@"aslide"]))
                 [answerFiles addObject:fileName];
         }
     }
@@ -268,34 +490,32 @@
     }
 }
 
-- (void)showSolution{
+- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
+    NSLog(@"There was an error loading the file - %@", error);
+    NSLog(@"from %@",error.userInfo.description);
     
-    showingSolution = true;
+    NSString * reloadPath;
+    NSString * reloadDestinationPath;
     
-    [clearButton setHidden:true];
-    
-    for(UIView *view in [self.view subviews])
-    {
-        if(![view isKindOfClass:[UIButton class]]&&![view isKindOfClass:[UILabel class]])
-            [view removeFromSuperview];
+    for (id key in error.userInfo){
+        NSLog(@"key, %@",key);
+        NSLog(@"object, %@",[error.userInfo objectForKey:key]);
+        if ([key isEqualToString:@"path"])
+            reloadPath = [error.userInfo objectForKey:key];
+        
+        if ([key isEqualToString:@"destinationPath"])
+            reloadDestinationPath = [error.userInfo objectForKey:key];
+        
     }
     
-    UIImageView * solutionImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 768, 1004)];
-    NSString * imgName = [currentProblemDict objectForKey:@"solution"];
-    imgName = [docPath stringByAppendingPathComponent:imgName];
-    //NSLog(@"imgName: %@ ",imgName);
-    UIImage * theImage = [UIImage imageWithContentsOfFile:imgName];
-    solutionImg.contentMode = UIViewContentModeCenter;  //default autoresize doesn't look good.
-    [solutionImg setImage:theImage];
-    [self.view addSubview:solutionImg];
-    UIImageView * showAns = [[UIImageView alloc] initWithFrame:CGRectMake(0,739,ansImage.size.width,ansImage.size.height)];  
-    [showAns setImage:ansImage];
-    [self.view addSubview:showAns];
     
-    
-    
-    
+    if ([reloadPath length]>1 && [reloadDestinationPath length] > 1){
+        [restClient loadFile:reloadDestinationPath intoPath:reloadPath];
+        NSLog(@"re-download trying");
+    }
 }
+
+
 
 - (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
     downloadCount = 0;
@@ -319,6 +539,8 @@
         [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
     }
 }
+
+
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)localPath {
     NSLog(@"got one.");
@@ -351,134 +573,37 @@
     [[DBSession sharedSession] unlinkAll]; 
     restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     restClient.delegate = self;
-    }
-
-- (IBAction)clearButtonPressed:(id)sender {
     
-    if(online && linkedDB){  //this is the download button now.
-        //NSLog(@"downloading");
-        [self performSelector:@selector(downloadDB) withObject:sender afterDelay:0.0];
-    }
-    else{    
-        //save cleared...
-        
-        UIView * saveView = self.view;
-        UIGraphicsBeginImageContext(saveView.bounds.size);
-        [saveView.layer renderInContext:UIGraphicsGetCurrentContext()];
-        UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        NSDate *myDate = [NSDate date];
-        NSDateFormatter *df = [NSDateFormatter new];
-        [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
-        NSString * nowDate =  [df stringFromDate:myDate];
-        
-        NSString * fileName = [NSString stringWithFormat: @"ATBoring_Cleared_%@__%@.jpg",[[UIDevice currentDevice] name], nowDate];
-        NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
-        [UIImageJPEGRepresentation(viewImage, 1.0) writeToFile:localFilePath atomically:YES];
-        
-        NSString * logline = [NSString stringWithFormat:@"problem %d cleared at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
-        logFile = [logFile stringByAppendingString:logline];
-        
-        // and clear the scratchpad.
-        for(UIView *view in [self.view subviews])
-        {
-            if(![view isKindOfClass:[UIButton class]]&&![view isKindOfClass:[UILabel class]])
-                [view removeFromSuperview];
-        }
-        
-        drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 40, 768, 1004)];
-        [self.view addSubview:drawScreen];
-        
-        //put the answer box back in place.
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,700,self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor blackColor];
-        [drawScreen addSubview:lineView];        
-    }
+    NSString * directory = @"/download/";
+    //NSLog(@"loading metadata");
+    [restClient loadMetadata:directory];
     
 }
 
-- (IBAction)continueButtonPressed:(id)sender {
+- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError *)error{
+    NSLog(@"Upload error - %@", error);
+    NSLog(@"from %@",error.userInfo.description);
     
-    if(online && linkedDB)  //this is the upload button now.
-        [self performSelector:@selector(uploadDB) withObject:sender afterDelay:0.0];
-    else{ 
+    NSString * reloadSourcePath;
+    NSString * reloadDestinationPath;
+    NSString *destDir = @"/upload/";
+    
+    for (id key in error.userInfo){
+        NSLog(@"key, %@",key);
+        NSLog(@"object, %@",[error.userInfo objectForKey:key]);
+        if ([key isEqualToString:@"sourcePath"])
+            reloadSourcePath = [error.userInfo objectForKey:key];
         
-        if (! showingSolution){
-            
-            //save
-            
-            UIView * saveView = self.view;
-            UIGraphicsBeginImageContext(saveView.bounds.size);
-            [saveView.layer renderInContext:UIGraphicsGetCurrentContext()];
-            UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
-            CGRect rect = CGRectMake(0,739,viewImage.size.width,viewImage.size.height);  //this should be where the answer box is.
-            CGImageRef subImageRef = CGImageCreateWithImageInRect([viewImage CGImage], rect);
-            ansImage = [UIImage imageWithCGImage:subImageRef];
-            
-            UIGraphicsEndImageContext();
-
-            NSDate *myDate = [NSDate date];
-            NSDateFormatter *df = [NSDateFormatter new];
-            [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
-            NSString * nowDate =  [df stringFromDate:myDate];
-            
-            NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@.jpg",[[UIDevice currentDevice] name], nowDate];
-            NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
-            [UIImageJPEGRepresentation(ansImage, 1.0) writeToFile:localFilePath atomically:YES];
-            
-            NSString * logline = [NSString stringWithFormat:@"problem %d submitted at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
-            logFile = [logFile stringByAppendingString:logline];
-            
-            
-            [self performSelector:@selector(showSolution) withObject:sender afterDelay:0.0];
-        }
-        if(showingSolution){
-            showingSolution = false;
-            [clearButton setHidden:false];
-            for(UIView *view in [self.view subviews])
-            {
-                if(![view isKindOfClass:[UIButton class]]&&![view isKindOfClass:[UILabel class]])
-                    [view removeFromSuperview];
-            }
-            currentProblem ++;
-            
-            if (currentProblem > numOfProblems){
-                self.problemLabel.text = @"Thank you, that is all.";
-                [self performSelector:@selector(leave) withObject:sender afterDelay:0.0];
-            }
-            
-            else{  // here we present the next problem.
-                
-                
-                currentProblemDict = [problemList objectAtIndex:currentProblem-1 ];
-                
-                NSString * problemText = [currentProblemDict objectForKey:@"start"];
-                
-                NSString * solveText = [NSString stringWithFormat:@"Solve:  %@",problemText];
-                
-                self.problemLabel.text = solveText;
-                
-                [self.view setBackgroundColor:[UIColor whiteColor]];
-                
-                drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 40, 768, 1004)];
-                [self.view addSubview:drawScreen];
-                
-                //put the answer box in place.
-                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,700,self.view.bounds.size.width, 1)];
-                lineView.backgroundColor = [UIColor blackColor];
-                [drawScreen addSubview:lineView];        
-                
-                NSDate * myDate = [NSDate date];
-                NSDateFormatter * df = [NSDateFormatter new];
-                [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
-                NSString * nowDate =  [df stringFromDate:myDate];
-                NSString * logline = [NSString stringWithFormat:@"problem %d presented at: %@\n",currentProblem,nowDate];
-                logFile = [logFile stringByAppendingString:logline];
-                
-                
-            }//not at the end of problems
-        }//end of present next problem
-    }//end of upload
+        if ([key isEqualToString:@"destinationPath"])
+            reloadDestinationPath = [error.userInfo objectForKey:key];
+    }
+    
+    
+    if ([reloadSourcePath length]>1 && [reloadDestinationPath length] > 1){
+        [restClient uploadFile:[reloadSourcePath lastPathComponent] toPath:destDir withParentRev:nil  fromPath:reloadSourcePath];
+        NSLog(@"re-upload trying");
+    }
 }
+
+
 @end
