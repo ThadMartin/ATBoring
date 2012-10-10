@@ -280,7 +280,7 @@
         //[UIImagePNGRepresentation(viewImage) writeToFile:localFilePath atomically:YES];
         
         NSData * savePic = UIImagePNGRepresentation(viewImage);
-        [savePic writeToFile:fileName atomically:YES];
+        [savePic writeToFile:localFilePath atomically:YES];
 
         savePic = nil;
         fileName = nil;
@@ -356,7 +356,9 @@
             
             NSData * savePic = UIImagePNGRepresentation(viewImage);
             
-            [savePic writeToFile:fileName atomically:YES];
+            //[savePic writeToFile:fileName atomically:YES];
+            
+            [savePic writeToFile:localFilePath atomically:YES];
             
             savePic = nil;
             
@@ -469,8 +471,8 @@
     
     NSMutableArray * answerFiles = [[NSMutableArray alloc] init];
     
-    for (NSString * fileName in filelist){  //pick out the .jpg and .txt files, but not the solutions that are named Silde.
-        if([fileName hasSuffix:@".jpg"]||[fileName hasSuffix:@".txt"]){
+    for (NSString * fileName in filelist){  //pick out the .png and .txt files, but not the solutions that are named Silde.
+        if([fileName hasSuffix:@".png"]||[fileName hasSuffix:@".txt"]){
             if(! ([fileName hasPrefix:@"Slide"]||[fileName hasPrefix:@"aslide"]))
                 [answerFiles addObject:fileName];
         }
