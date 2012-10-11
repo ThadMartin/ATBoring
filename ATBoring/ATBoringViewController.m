@@ -29,6 +29,7 @@
     NSString * logFile;
     UIView * ansView;
     UIImage * ansImage;
+    NSString * logFileName;
 }
 
 
@@ -58,6 +59,15 @@
     logFile = @"";
     NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docPath = [paths objectAtIndex:0];           //All downloaded files and files to be uploaded.  Nothing from bundle path.
+    
+    NSDate * myDate = [NSDate date];
+    NSDateFormatter * df = [NSDateFormatter new];
+    [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
+    NSString * nowDate =  [df stringFromDate:myDate];
+    
+    NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@.txt",[[UIDevice currentDevice] name], nowDate];
+    logFileName = [docPath stringByAppendingPathComponent:fileName];
+    
 }
 
 -(void) updateLinkStatus:(NSTimer*)timer2{       //We gave dropbox another 3 sec.   Did it work?
@@ -283,8 +293,7 @@
         [savePic writeToFile:localFilePath atomically:YES];
 
         savePic = nil;
-        fileName = nil;
-        
+                
         viewImage = nil;
         saveView = nil;
         myDate = nil;
@@ -292,6 +301,13 @@
         
         NSString * logline = [NSString stringWithFormat:@"problem %d cleared at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
         logFile = [logFile stringByAppendingString:logline];
+        
+        
+        NSError * error;
+        
+        [filemgr removeItemAtPath:logFileName error:&error];
+        
+        [logFile writeToFile:logFileName atomically:YES encoding:NSUTF8StringEncoding error:&error];
         
         nowDate = nil;
         fileName = nil;
@@ -350,7 +366,9 @@
             [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
             NSString * nowDate =  [df stringFromDate:myDate];
             
-            NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@.png",[[UIDevice currentDevice] name], nowDate];
+            NSString * ansName = [currentProblemDict objectForKey:@"solution"];
+            
+            NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@__%@.png",ansName,[[UIDevice currentDevice] name], nowDate];
             NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
             //[UIImagePNGRepresentation(viewImage) writeToFile:localFilePath atomically:YES];
             
@@ -362,12 +380,20 @@
             
             savePic = nil;
             
+            ansName = nil;
             
             viewImage = nil;
             
             NSString * logline = [NSString stringWithFormat:@"problem %d submitted at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
             logFile = [logFile stringByAppendingString:logline];
-            NSLog(@"logline  %@",logline);
+            //NSLog(@"logline  %@",logline);
+                    
+            NSError * error;
+            
+            [filemgr removeItemAtPath:logFileName error:&error];
+            
+            [logFile writeToFile:logFileName atomically:YES encoding:NSUTF8StringEncoding error:&error];
+
             
             saveView = nil;
             viewImage = nil;
@@ -527,11 +553,14 @@
     NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString * documentsDirectory = [paths objectAtIndex:0];
     
+    NSError * error;
+    
     if (metadata.isDirectory) {
         for (DBMetadata *file in metadata.contents) {
             downloadCount++;
             NSString * dropboxPath = [@"/download/" stringByAppendingString:file.filename];
             NSString * localPath = [documentsDirectory stringByAppendingPathComponent:file.filename];
+            [filemgr removeItemAtPath:localPath error:&error];
             [restClient loadFile:dropboxPath intoPath:localPath];
             NSLog(@" loading files:  %i",downloadCount);
         }
