@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7264F3C4163616410016E739 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7264F3C3163616410016E739 /* DropboxSDK.framework */; };
+		728960CF162F2ACD0010E26C /* info.m in Sources */ = {isa = PBXBuildFile; fileRef = 728960CD162F2ACD0010E26C /* info.m */; };
+		728960D0162F2ACD0010E26C /* info.xib in Resources */ = {isa = PBXBuildFile; fileRef = 728960CE162F2ACD0010E26C /* info.xib */; };
 		72930ED01601303200ECB1B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ECF1601303200ECB1B9 /* UIKit.framework */; };
 		72930ED21601303200ECB1B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ED11601303200ECB1B9 /* Foundation.framework */; };
 		72930ED41601303200ECB1B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ED31601303200ECB1B9 /* CoreGraphics.framework */; };
+		729D4AA216360BAE00B0B3F1 /* ATWR-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 729D4AA116360BAE00B0B3F1 /* ATWR-Info.plist */; };
+		729E7FE9162E572100AFE113 /* identity.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E7FE7162E572100AFE113 /* identity.m */; };
+		729E7FEA162E572100AFE113 /* identity.xib in Resources */ = {isa = PBXBuildFile; fileRef = 729E7FE8162E572100AFE113 /* identity.xib */; };
 		72A938371604C9D2005EECAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A938361604C9D2005EECAB /* QuartzCore.framework */; };
 		72A938391604C9DB005EECAB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A938381604C9DB005EECAB /* Security.framework */; };
 		72B0ACA8160572F5003A36DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72B0AC9F160572F5003A36DF /* InfoPlist.strings */; };
@@ -17,19 +23,25 @@
 		72B0ACAA160572F5003A36DF /* scratchPadDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B0ACA3160572F5003A36DF /* scratchPadDraw.m */; };
 		72B0ACAF160573B9003A36DF /* ATBoringAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B0ACAC160573B9003A36DF /* ATBoringAppDelegate.m */; };
 		72B0ACB0160573B9003A36DF /* ATBoringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B0ACAE160573B9003A36DF /* ATBoringViewController.m */; };
-		72B0ACB2160575CB003A36DF /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72B0ACB1160575CB003A36DF /* DropboxSDK.framework */; };
 		72B0ACB816057845003A36DF /* ATBoringViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72B0ACB616057845003A36DF /* ATBoringViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		72930ECB1601303200ECB1B9 /* ATBoring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATBoring.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7264F3C3163616410016E739 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = ATBoring/DropboxSDK.framework; sourceTree = "<group>"; };
+		728960CC162F2ACD0010E26C /* info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = info.h; path = ATBoring/info.h; sourceTree = SOURCE_ROOT; };
+		728960CD162F2ACD0010E26C /* info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = info.m; path = ATBoring/info.m; sourceTree = SOURCE_ROOT; };
+		728960CE162F2ACD0010E26C /* info.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = info.xib; path = ATBoring/info.xib; sourceTree = SOURCE_ROOT; };
+		72930ECB1601303200ECB1B9 /* ATWR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATWR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72930ECF1601303200ECB1B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		72930ED11601303200ECB1B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		72930ED31601303200ECB1B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		729D4AA116360BAE00B0B3F1 /* ATWR-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ATWR-Info.plist"; path = "ATBoring/ATWR-Info.plist"; sourceTree = SOURCE_ROOT; };
+		729D4AA416360BD700B0B3F1 /* ATWR-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ATWR-Prefix.pch"; path = "ATBoring/ATWR-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		729E7FE6162E572100AFE113 /* identity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = identity.h; path = ATBoring/identity.h; sourceTree = SOURCE_ROOT; };
+		729E7FE7162E572100AFE113 /* identity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = identity.m; path = ATBoring/identity.m; sourceTree = SOURCE_ROOT; };
+		729E7FE8162E572100AFE113 /* identity.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = identity.xib; path = ATBoring/identity.xib; sourceTree = SOURCE_ROOT; };
 		72A938361604C9D2005EECAB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		72A938381604C9DB005EECAB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		72B0AC9A160572F5003A36DF /* ATBoring-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ATBoring-Info.plist"; path = "ATBoring/ATBoring-Info.plist"; sourceTree = SOURCE_ROOT; };
-		72B0AC9B160572F5003A36DF /* ATBoring-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ATBoring-Prefix.pch"; path = "ATBoring/ATBoring-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		72B0ACA0160572F5003A36DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		72B0ACA1160572F5003A36DF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ATBoring/main.m; sourceTree = SOURCE_ROOT; };
 		72B0ACA2160572F5003A36DF /* scratchPadDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scratchPadDraw.h; path = ATBoring/scratchPadDraw.h; sourceTree = SOURCE_ROOT; };
@@ -38,7 +50,6 @@
 		72B0ACAC160573B9003A36DF /* ATBoringAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATBoringAppDelegate.m; path = ATBoring/ATBoringAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		72B0ACAD160573B9003A36DF /* ATBoringViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATBoringViewController.h; path = ATBoring/ATBoringViewController.h; sourceTree = SOURCE_ROOT; };
 		72B0ACAE160573B9003A36DF /* ATBoringViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATBoringViewController.m; path = ATBoring/ATBoringViewController.m; sourceTree = SOURCE_ROOT; };
-		72B0ACB1160575CB003A36DF /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		72B0ACB716057845003A36DF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = ATBoring/en.lproj/ATBoringViewController.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -47,12 +58,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7264F3C4163616410016E739 /* DropboxSDK.framework in Frameworks */,
 				72A938391604C9DB005EECAB /* Security.framework in Frameworks */,
 				72A938371604C9D2005EECAB /* QuartzCore.framework in Frameworks */,
 				72930ED01601303200ECB1B9 /* UIKit.framework in Frameworks */,
 				72930ED21601303200ECB1B9 /* Foundation.framework in Frameworks */,
 				72930ED41601303200ECB1B9 /* CoreGraphics.framework in Frameworks */,
-				72B0ACB2160575CB003A36DF /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +82,7 @@
 		72930ECC1601303200ECB1B9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				72930ECB1601303200ECB1B9 /* ATBoring.app */,
+				72930ECB1601303200ECB1B9 /* ATWR.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,7 +90,7 @@
 		72930ECE1601303200ECB1B9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				72B0ACB1160575CB003A36DF /* DropboxSDK.framework */,
+				7264F3C3163616410016E739 /* DropboxSDK.framework */,
 				72A938361604C9D2005EECAB /* QuartzCore.framework */,
 				72A938381604C9DB005EECAB /* Security.framework */,
 				72930ECF1601303200ECB1B9 /* UIKit.framework */,
@@ -101,6 +112,12 @@
 				72B0ACA2160572F5003A36DF /* scratchPadDraw.h */,
 				72B0ACA3160572F5003A36DF /* scratchPadDraw.m */,
 				72930ED61601303200ECB1B9 /* Supporting Files */,
+				729E7FE6162E572100AFE113 /* identity.h */,
+				729E7FE7162E572100AFE113 /* identity.m */,
+				729E7FE8162E572100AFE113 /* identity.xib */,
+				728960CC162F2ACD0010E26C /* info.h */,
+				728960CD162F2ACD0010E26C /* info.m */,
+				728960CE162F2ACD0010E26C /* info.xib */,
 			);
 			name = ATBoring;
 			path = AT_Boring;
@@ -109,9 +126,9 @@
 		72930ED61601303200ECB1B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				72B0AC9A160572F5003A36DF /* ATBoring-Info.plist */,
+				729D4AA416360BD700B0B3F1 /* ATWR-Prefix.pch */,
+				729D4AA116360BAE00B0B3F1 /* ATWR-Info.plist */,
 				72B0ACA1160572F5003A36DF /* main.m */,
-				72B0AC9B160572F5003A36DF /* ATBoring-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -128,9 +145,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		72930ECA1601303200ECB1B9 /* ATBoring */ = {
+		72930ECA1601303200ECB1B9 /* ATWR */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 72930EE91601303200ECB1B9 /* Build configuration list for PBXNativeTarget "ATBoring" */;
+			buildConfigurationList = 72930EE91601303200ECB1B9 /* Build configuration list for PBXNativeTarget "ATWR" */;
 			buildPhases = (
 				72930EC71601303200ECB1B9 /* Sources */,
 				72930EC81601303200ECB1B9 /* Frameworks */,
@@ -140,9 +157,9 @@
 			);
 			dependencies = (
 			);
-			name = ATBoring;
+			name = ATWR;
 			productName = AT_Boring;
-			productReference = 72930ECB1601303200ECB1B9 /* ATBoring.app */;
+			productReference = 72930ECB1601303200ECB1B9 /* ATWR.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -153,7 +170,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = 72930EC51601303200ECB1B9 /* Build configuration list for PBXProject "ATBoring" */;
+			buildConfigurationList = 72930EC51601303200ECB1B9 /* Build configuration list for PBXProject "ATWR" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -165,7 +182,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				72930ECA1601303200ECB1B9 /* ATBoring */,
+				72930ECA1601303200ECB1B9 /* ATWR */,
 			);
 		};
 /* End PBXProject section */
@@ -177,6 +194,9 @@
 			files = (
 				72B0ACA8160572F5003A36DF /* InfoPlist.strings in Resources */,
 				72B0ACB816057845003A36DF /* ATBoringViewController.xib in Resources */,
+				729E7FEA162E572100AFE113 /* identity.xib in Resources */,
+				728960D0162F2ACD0010E26C /* info.xib in Resources */,
+				729D4AA216360BAE00B0B3F1 /* ATWR-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +211,8 @@
 				72B0ACAA160572F5003A36DF /* scratchPadDraw.m in Sources */,
 				72B0ACAF160573B9003A36DF /* ATBoringAppDelegate.m in Sources */,
 				72B0ACB0160573B9003A36DF /* ATBoringViewController.m in Sources */,
+				729E7FE9162E572100AFE113 /* identity.m in Sources */,
+				728960CF162F2ACD0010E26C /* info.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,12 +291,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../Desktop\"",
+					"\"$(SRCROOT)/ATBoring\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ATBoring/ATBoring-Prefix.pch";
-				INFOPLIST_FILE = "ATBoring/ATBoring-Info.plist";
+				GCC_PREFIX_HEADER = "ATBoring/ATWR-Prefix.pch";
+				INFOPLIST_FILE = "/Users/thad/Code/ATBoring/ATBoring/ATWR-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = ATBoring;
+				PRODUCT_NAME = ATWR;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -285,12 +309,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../Desktop\"",
+					"\"$(SRCROOT)/ATBoring\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ATBoring/ATBoring-Prefix.pch";
-				INFOPLIST_FILE = "ATBoring/ATBoring-Info.plist";
+				GCC_PREFIX_HEADER = "ATBoring/ATWR-Prefix.pch";
+				INFOPLIST_FILE = "/Users/thad/Code/ATBoring/ATBoring/ATWR-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = ATBoring;
+				PRODUCT_NAME = ATWR;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -298,7 +324,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		72930EC51601303200ECB1B9 /* Build configuration list for PBXProject "ATBoring" */ = {
+		72930EC51601303200ECB1B9 /* Build configuration list for PBXProject "ATWR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72930EE71601303200ECB1B9 /* Debug */,
@@ -307,7 +333,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		72930EE91601303200ECB1B9 /* Build configuration list for PBXNativeTarget "ATBoring" */ = {
+		72930EE91601303200ECB1B9 /* Build configuration list for PBXNativeTarget "ATWR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72930EEA1601303200ECB1B9 /* Debug */,

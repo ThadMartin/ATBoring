@@ -7,6 +7,8 @@
 //
 
 #import "ATBoringViewController.h"
+#import "identity.h"
+#import "info.h"
 
 @implementation ATBoringViewController{
     
@@ -30,12 +32,15 @@
     UIView * ansView;
     UIImage * ansImage;
     NSString * logFileName;
+    NSString * studentID;
+    NSString * classID;
 }
 
 
 @synthesize continueButton;
 @synthesize problemLabel;
 @synthesize clearButton;
+
 
 
 - (void)didReceiveMemoryWarning
@@ -51,6 +56,7 @@
 {
     
     [super viewDidLoad];
+    
     
     online = false;
     linkedDB = false;
@@ -78,9 +84,9 @@
         [continueButton setTitle:@"upload" forState:normal];
         [timer invalidate];
         linkedDB = true;
-    }else{
-        [[DBSession sharedSession] linkFromController:self];
-    }
+    }//else{
+      //  [[DBSession sharedSession] linkFromController:self];
+    //}
 }
 
 - (void)viewDidUnload
@@ -106,9 +112,13 @@
     //        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     //        restClient.delegate = self;
     //    }
-    if (!restClient) {
-        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-        restClient.delegate = self;
+    //if ([[DBSession sharedSession] isLinked]) {
+    //    [[DBSession sharedSession] unlinkAll];
+    //    exit(0);
+    //}
+    
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
     }
     
     NSLog(@"view did appear ran.");
@@ -138,7 +148,7 @@
     
     else{  //we are offline.  Load the json file, go to next (first) problem.
         
-        NSString * jsonFile = [docPath stringByAppendingPathComponent:@"problems.json"];        
+        NSString * jsonFile = [docPath stringByAppendingPathComponent:@"problems_id2.json"];        
         NSData *problemListData = [[NSMutableData alloc] initWithContentsOfFile:jsonFile];
         
         NSError *error;
@@ -157,30 +167,67 @@
         NSString * problemText = [currentProblemDict objectForKey:@"start"];
         //NSLog(@"current problem:  %@",problemText);
         
-        NSString * solveText = [NSString stringWithFormat:@"Simplify:  %@",problemText];
         
-        self.problemLabel.text = solveText;
-        [self.view setBackgroundColor:[UIColor whiteColor]];
+        NSString * studentID_path = [docPath stringByAppendingPathComponent:@"studentID.id"];
         
-        drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 100, 768, 1004)];
-        [self.view addSubview:drawScreen];
+        NSData *data = [NSData dataWithContentsOfFile:studentID_path];
         
-        //put the answer box in place.
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,640,self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor blackColor];
-        [drawScreen addSubview:lineView];        
+        studentID = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         
-        NSDate * myDate = [NSDate date];
-        NSDateFormatter * df = [NSDateFormatter new];
-        [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
-        NSString * nowDate =  [df stringFromDate:myDate];
+        NSString * classID_path = [docPath stringByAppendingPathComponent:@"classID.id"];
         
-        NSString * logline = [NSString stringWithFormat:@"problem %d presented at: %@ \n",currentProblem,nowDate];        
-        logFile = [logFile stringByAppendingString:logline];
+        NSData * classData = [NSData dataWithContentsOfFile:classID_path];
         
+        classID = [[NSString alloc] initWithData:classData encoding:NSUTF8StringEncoding];
+        
+        
+        
+        identity* ident = [[identity alloc] init];
+        
+        info * instructions = [[info alloc] init];
+        
+        if([problemText isEqualToString:@"identification"]||[problemText isEqualToString:@"instruction"]){
+            currentProblem ++;
+            
+            if ([problemText isEqualToString:@"identification"]){
+                
+                ident.currentProblemDict = currentProblemDict;
+                [self presentModalViewController:ident animated:false ];
+                
+            }
+            
+            if ([problemText isEqualToString:@"instruction"]){
+                
+                instructions.currentProblemDict = currentProblemDict;
+                [self presentModalViewController:instructions animated:false ];
+            }
+            
+         }
+        else{
+            
+            NSString * solveText = [NSString stringWithFormat:@"Simplify:  %@",problemText];
+            
+            self.problemLabel.text = solveText;
+            [self.view setBackgroundColor:[UIColor whiteColor]];
+            
+            drawScreen=[[scratchPadDraw alloc]initWithFrame:CGRectMake(0, 100, 768, 1004)];
+            [self.view addSubview:drawScreen];
+            
+            //put the answer box in place.
+            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0,640,self.view.bounds.size.width, 1)];
+            lineView.backgroundColor = [UIColor blackColor];
+            [drawScreen addSubview:lineView];        
+            
+            NSDate * myDate = [NSDate date];
+            NSDateFormatter * df = [NSDateFormatter new];
+            [df setDateFormat:@"dd_MMMMyyyy_HH_mm_ss.SSS"];
+            NSString * nowDate =  [df stringFromDate:myDate];
+            
+            NSString * logline = [NSString stringWithFormat:@"problem %d presented at: %@ \n",currentProblem,nowDate];        
+            logFile = [logFile stringByAppendingString:logline];
+            
+        }
     }
-    
-    
 }
 
 
@@ -240,7 +287,7 @@
     {
         if(![view isKindOfClass:[UIButton class]]&&![view isKindOfClass:[UILabel class]])
             [view removeFromSuperview];
-
+        
     }
     
     UIImageView * solutionImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 100, 768, 640)];
@@ -285,15 +332,15 @@
         
         df = nil;
         
-        NSString * fileName = [NSString stringWithFormat: @"ATBoring_Cleared_%@__%@.png",[[UIDevice currentDevice] name], nowDate];
+        NSString * fileName = [NSString stringWithFormat: @"ATBoring_Cleared_%@__%@__%@__%@.png",[[UIDevice currentDevice] name], nowDate,studentID,classID];
         NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
         //[UIImagePNGRepresentation(viewImage) writeToFile:localFilePath atomically:YES];
         
         NSData * savePic = UIImagePNGRepresentation(viewImage);
         [savePic writeToFile:localFilePath atomically:YES];
-
+        
         savePic = nil;
-                
+        
         viewImage = nil;
         saveView = nil;
         myDate = nil;
@@ -368,7 +415,10 @@
             
             NSString * ansName = [currentProblemDict objectForKey:@"solution"];
             
-            NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@__%@.png",ansName,[[UIDevice currentDevice] name], nowDate];
+            NSString * fileName = [NSString stringWithFormat: @"ATBoring__%@__%@__%@__%@__%@__.png",ansName,[[UIDevice currentDevice] name], nowDate,studentID,classID];
+            
+            NSLog(@"class ID: %@",classID);
+            
             NSString *localFilePath = [docPath stringByAppendingPathComponent:fileName];
             //[UIImagePNGRepresentation(viewImage) writeToFile:localFilePath atomically:YES];
             
@@ -387,13 +437,13 @@
             NSString * logline = [NSString stringWithFormat:@"problem %d submitted at: %@ , filename: %@ \n",currentProblem,nowDate,fileName];
             logFile = [logFile stringByAppendingString:logline];
             //NSLog(@"logline  %@",logline);
-                    
+            
             NSError * error;
             
             [filemgr removeItemAtPath:logFileName error:&error];
             
             [logFile writeToFile:logFileName atomically:YES encoding:NSUTF8StringEncoding error:&error];
-
+            
             
             saveView = nil;
             viewImage = nil;
