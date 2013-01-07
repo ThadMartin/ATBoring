@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		723608A3165BED8F0040BEB0 /* startScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 723608A1165BED8E0040BEB0 /* startScreen.m */; };
+		723608A4165BED8F0040BEB0 /* startScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 723608A2165BED8E0040BEB0 /* startScreen.xib */; };
 		7264F3C4163616410016E739 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7264F3C3163616410016E739 /* DropboxSDK.framework */; };
 		728960CF162F2ACD0010E26C /* info.m in Sources */ = {isa = PBXBuildFile; fileRef = 728960CD162F2ACD0010E26C /* info.m */; };
 		728960D0162F2ACD0010E26C /* info.xib in Resources */ = {isa = PBXBuildFile; fileRef = 728960CE162F2ACD0010E26C /* info.xib */; };
 		72930ED01601303200ECB1B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ECF1601303200ECB1B9 /* UIKit.framework */; };
 		72930ED21601303200ECB1B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ED11601303200ECB1B9 /* Foundation.framework */; };
 		72930ED41601303200ECB1B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72930ED31601303200ECB1B9 /* CoreGraphics.framework */; };
-		729D4AA216360BAE00B0B3F1 /* ATWR-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 729D4AA116360BAE00B0B3F1 /* ATWR-Info.plist */; };
+		729A7D05165C4000008BF367 /* selectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 729A7D03165C4000008BF367 /* selectorViewController.m */; };
+		729A7D06165C4000008BF367 /* selectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 729A7D04165C4000008BF367 /* selectorViewController.xib */; };
 		729E7FE9162E572100AFE113 /* identity.m in Sources */ = {isa = PBXBuildFile; fileRef = 729E7FE7162E572100AFE113 /* identity.m */; };
 		729E7FEA162E572100AFE113 /* identity.xib in Resources */ = {isa = PBXBuildFile; fileRef = 729E7FE8162E572100AFE113 /* identity.xib */; };
 		72A938371604C9D2005EECAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A938361604C9D2005EECAB /* QuartzCore.framework */; };
@@ -27,6 +30,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		723608A0165BED8E0040BEB0 /* startScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = startScreen.h; sourceTree = SOURCE_ROOT; };
+		723608A1165BED8E0040BEB0 /* startScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = startScreen.m; sourceTree = SOURCE_ROOT; };
+		723608A2165BED8E0040BEB0 /* startScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = startScreen.xib; sourceTree = SOURCE_ROOT; };
 		7264F3C3163616410016E739 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = ATBoring/DropboxSDK.framework; sourceTree = "<group>"; };
 		728960CC162F2ACD0010E26C /* info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = info.h; path = ATBoring/info.h; sourceTree = SOURCE_ROOT; };
 		728960CD162F2ACD0010E26C /* info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = info.m; path = ATBoring/info.m; sourceTree = SOURCE_ROOT; };
@@ -35,6 +41,9 @@
 		72930ECF1601303200ECB1B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		72930ED11601303200ECB1B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		72930ED31601303200ECB1B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		729A7D02165C4000008BF367 /* selectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = selectorViewController.h; sourceTree = SOURCE_ROOT; };
+		729A7D03165C4000008BF367 /* selectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = selectorViewController.m; sourceTree = SOURCE_ROOT; };
+		729A7D04165C4000008BF367 /* selectorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = selectorViewController.xib; sourceTree = SOURCE_ROOT; };
 		729D4AA116360BAE00B0B3F1 /* ATWR-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ATWR-Info.plist"; path = "ATBoring/ATWR-Info.plist"; sourceTree = SOURCE_ROOT; };
 		729D4AA416360BD700B0B3F1 /* ATWR-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ATWR-Prefix.pch"; path = "ATBoring/ATWR-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		729E7FE6162E572100AFE113 /* identity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = identity.h; path = ATBoring/identity.h; sourceTree = SOURCE_ROOT; };
@@ -108,6 +117,12 @@
 				72B0ACAD160573B9003A36DF /* ATBoringViewController.h */,
 				72B0ACAE160573B9003A36DF /* ATBoringViewController.m */,
 				72B0ACB616057845003A36DF /* ATBoringViewController.xib */,
+				723608A0165BED8E0040BEB0 /* startScreen.h */,
+				723608A1165BED8E0040BEB0 /* startScreen.m */,
+				723608A2165BED8E0040BEB0 /* startScreen.xib */,
+				729A7D02165C4000008BF367 /* selectorViewController.h */,
+				729A7D03165C4000008BF367 /* selectorViewController.m */,
+				729A7D04165C4000008BF367 /* selectorViewController.xib */,
 				72B0AC9C160572F5003A36DF /* en.lproj */,
 				72B0ACA2160572F5003A36DF /* scratchPadDraw.h */,
 				72B0ACA3160572F5003A36DF /* scratchPadDraw.m */,
@@ -196,7 +211,8 @@
 				72B0ACB816057845003A36DF /* ATBoringViewController.xib in Resources */,
 				729E7FEA162E572100AFE113 /* identity.xib in Resources */,
 				728960D0162F2ACD0010E26C /* info.xib in Resources */,
-				729D4AA216360BAE00B0B3F1 /* ATWR-Info.plist in Resources */,
+				723608A4165BED8F0040BEB0 /* startScreen.xib in Resources */,
+				729A7D06165C4000008BF367 /* selectorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +229,8 @@
 				72B0ACB0160573B9003A36DF /* ATBoringViewController.m in Sources */,
 				729E7FE9162E572100AFE113 /* identity.m in Sources */,
 				728960CF162F2ACD0010E26C /* info.m in Sources */,
+				723608A3165BED8F0040BEB0 /* startScreen.m in Sources */,
+				729A7D05165C4000008BF367 /* selectorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

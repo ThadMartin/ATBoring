@@ -7,13 +7,15 @@
 //
 
 #import "ATBoringViewController.h"
+#import "ATBoringAppDelegate.h"
 #import "identity.h"
 #import "info.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation ATBoringViewController{
     
     scratchPadDraw * drawScreen;
-    DBRestClient * restClient;
+//    DBRestClient * restClient;
     bool online;
     bool linkedDB;
     NSTimer * timer;
@@ -40,7 +42,7 @@
 @synthesize continueButton;
 @synthesize problemLabel;
 @synthesize clearButton;
-
+@synthesize infile;
 
 
 - (void)didReceiveMemoryWarning
@@ -76,18 +78,18 @@
     
 }
 
--(void) updateLinkStatus:(NSTimer*)timer2{       //We gave dropbox another 3 sec.   Did it work?
-    //NSLog(@"still trying to link to dropbox");
-    if ([[DBSession sharedSession] isLinked]){
-        problemLabel.text = @"app linked to dropbox";
-        [clearButton setTitle:@"download" forState:normal];
-        [continueButton setTitle:@"upload" forState:normal];
-        [timer invalidate];
-        linkedDB = true;
-    }//else{
-      //  [[DBSession sharedSession] linkFromController:self];
-    //}
-}
+//-(void) updateLinkStatus:(NSTimer*)timer2{       //We gave dropbox another 3 sec.   Did it work?
+//    //NSLog(@"still trying to link to dropbox");
+//    if ([[DBSession sharedSession] isLinked]){
+//        problemLabel.text = @"app linked to dropbox";
+//        [clearButton setTitle:@"download" forState:normal];
+//        [continueButton setTitle:@"upload" forState:normal];
+//        [timer invalidate];
+//        linkedDB = true;
+//    }//else{
+//      //  [[DBSession sharedSession] linkFromController:self];
+//    //}
+//}
 
 - (void)viewDidUnload
 {
@@ -117,38 +119,41 @@
     //    exit(0);
     //}
     
-    if (![[DBSession sharedSession] isLinked]) {
-        [[DBSession sharedSession] linkFromController:self];
-    }
+//    if (![[DBSession sharedSession] isLinked]) {
+//        [[DBSession sharedSession] linkFromController:self];
+//    }
     
     NSLog(@"view did appear ran.");
     
-    NSString *URLString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
-    if ( URLString != NULL ){  //we are online, link dropbox and upload or download.
-        online = true;
-        
-        if (![[DBSession sharedSession] isLinked]) {
-            [[DBSession sharedSession] linkFromController:self];
-            
-            if (![[DBSession sharedSession] isLinked]) {
-                int timerTimeNumber = 3;
-                timer = [NSTimer scheduledTimerWithTimeInterval:timerTimeNumber target:self selector:@selector(updateLinkStatus:) userInfo:nil repeats:YES];
-                NSRunLoop *runner = [NSRunLoop currentRunLoop];
-                [runner addTimer: timer forMode: NSDefaultRunLoopMode];
-            }
-        }
-        
-        if ([[DBSession sharedSession] isLinked]) {
-            linkedDB = true;
-            [clearButton setTitle:@"download" forState:normal];
-            [continueButton setTitle:@"upload" forState:normal];
-            
-        }
-    }
+//    NSString *URLString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
+//    if ( URLString != NULL ){  //we are online, link dropbox and upload or download.
+//        online = true;
+//        
+//        if (![[DBSession sharedSession] isLinked]) {
+//            [[DBSession sharedSession] linkFromController:self];
+//            
+//            if (![[DBSession sharedSession] isLinked]) {
+//                int timerTimeNumber = 3;
+//                timer = [NSTimer scheduledTimerWithTimeInterval:timerTimeNumber target:self selector:@selector(updateLinkStatus:) userInfo:nil repeats:YES];
+//                NSRunLoop *runner = [NSRunLoop currentRunLoop];
+//                [runner addTimer: timer forMode: NSDefaultRunLoopMode];
+//            }
+//        }
+//        
+//        if ([[DBSession sharedSession] isLinked]) {
+//            linkedDB = true;
+//            [clearButton setTitle:@"download" forState:normal];
+//            [continueButton setTitle:@"upload" forState:normal];
+//            
+//        }
+//    }
+//    
+//    else{  //we are offline.  Load the json file, go to next (first) problem.
+//        
+        NSString * jsonFile = infile; 
     
-    else{  //we are offline.  Load the json file, go to next (first) problem.
-        
-        NSString * jsonFile = [docPath stringByAppendingPathComponent:@"problems_id2.json"];        
+        NSLog(@"jsonFile: %@",jsonFile);
+    
         NSData *problemListData = [[NSMutableData alloc] initWithContentsOfFile:jsonFile];
         
         NSError *error;
@@ -227,7 +232,7 @@
             logFile = [logFile stringByAppendingString:logline];
             
         }
-    }
+   // }
 }
 
 
@@ -519,172 +524,172 @@
 }
 
 
-- (void)downloadDB{
-    
-    if (!restClient) {
-        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    }
-    restClient.delegate = self;
-    
-    NSString * directory = @"/download/";
-    //NSLog(@"loading metadata");
-    [restClient loadMetadata:directory];
-    
-}
-
-- (void)uploadDB{
-    
-    if (!restClient) {
-        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    }
-    restClient.delegate = self;
-    
-    filemgr = [NSFileManager defaultManager];
-    
-    NSString *destDir = @"/upload/";
-    
-    NSArray * filelist= [filemgr contentsOfDirectoryAtPath:docPath error:nil];
-    
-    NSMutableArray * answerFiles = [[NSMutableArray alloc] init];
-    
-    for (NSString * fileName in filelist){  //pick out the .png and .txt files, but not the solutions that are named Silde.
-        if([fileName hasSuffix:@".png"]||[fileName hasSuffix:@".txt"]){
-            if(! ([fileName hasPrefix:@"Slide"]||[fileName hasPrefix:@"aslide"]))
-                [answerFiles addObject:fileName];
-        }
-    }
-    
-    
-    for(NSString * existing in answerFiles){
-        uploadCount++;
-        NSString * filePathName = [docPath stringByAppendingPathComponent:existing];
-        [restClient uploadFile:existing toPath:destDir withParentRev:nil  fromPath:filePathName];
-    }  // end of step through 
-    
-    if ([answerFiles count] ==0){
-        self.problemLabel.text = @"nothing left to upload.";
-        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
-        
-    }
-}
-
-- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
-    NSLog(@"There was an error loading the file - %@", error);
-    NSLog(@"from %@",error.userInfo.description);
-    
-    NSString * reloadPath;
-    NSString * reloadDestinationPath;
-    
-    for (id key in error.userInfo){
-        NSLog(@"key, %@",key);
-        NSLog(@"object, %@",[error.userInfo objectForKey:key]);
-        if ([key isEqualToString:@"path"])
-            reloadPath = [error.userInfo objectForKey:key];
-        
-        if ([key isEqualToString:@"destinationPath"])
-            reloadDestinationPath = [error.userInfo objectForKey:key];
-        
-    }
-    
-    
-    if ([reloadPath length]>1 && [reloadDestinationPath length] > 1){
-        [restClient loadFile:reloadDestinationPath intoPath:reloadPath];
-        NSLog(@"re-download trying");
-    }
-}
-
-
-
-- (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
-    downloadCount = 0;
-    
-    NSLog(@"loaded metadata");
-    
-    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString * documentsDirectory = [paths objectAtIndex:0];
-    
-    NSError * error;
-    
-    if (metadata.isDirectory) {
-        for (DBMetadata *file in metadata.contents) {
-            downloadCount++;
-            NSString * dropboxPath = [@"/download/" stringByAppendingString:file.filename];
-            NSString * localPath = [documentsDirectory stringByAppendingPathComponent:file.filename];
-            [filemgr removeItemAtPath:localPath error:&error];
-            [restClient loadFile:dropboxPath intoPath:localPath];
-            NSLog(@" loading files:  %i",downloadCount);
-        }
-    }//if not a directory, in wrong place.
-    if(downloadCount == 0){
-        self.problemLabel.text = @"nothing left to download";
-        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
-    }
-}
-
-
-
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)localPath {
-    NSLog(@"got one.");
-    downloadCount--;
-    if(downloadCount == 0){
-        self.problemLabel.text = @"download complete";
-        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
-    }
-}
-
-
-- (void)restClient:(DBRestClient*)client uploadedFile:(NSString *)destPath from:(NSString *)srcPath {
-    didUpload ++;
-    
-    NSError * error;
-    [filemgr removeItemAtPath:srcPath error:&error];
-    
-    if(error)
-        NSLog(@"error: %@",error);
-    
-    if (didUpload >= uploadCount){
-        self.problemLabel.text = @"upload complete";
-        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
-    }
-}
-
-
-- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
-    NSLog(@"Error loading metadata: %@", error);
-    [[DBSession sharedSession] unlinkAll]; 
-    restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    restClient.delegate = self;
-    
-    NSString * directory = @"/download/";
-    //NSLog(@"loading metadata");
-    [restClient loadMetadata:directory];
-    
-}
-
-- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError *)error{
-    NSLog(@"Upload error - %@", error);
-    NSLog(@"from %@",error.userInfo.description);
-    
-    NSString * reloadSourcePath;
-    NSString * reloadDestinationPath;
-    NSString *destDir = @"/upload/";
-    
-    for (id key in error.userInfo){
-        NSLog(@"key, %@",key);
-        NSLog(@"object, %@",[error.userInfo objectForKey:key]);
-        if ([key isEqualToString:@"sourcePath"])
-            reloadSourcePath = [error.userInfo objectForKey:key];
-        
-        if ([key isEqualToString:@"destinationPath"])
-            reloadDestinationPath = [error.userInfo objectForKey:key];
-    }
-    
-    
-    if ([reloadSourcePath length]>1 && [reloadDestinationPath length] > 1){
-        [restClient uploadFile:[reloadSourcePath lastPathComponent] toPath:destDir withParentRev:nil  fromPath:reloadSourcePath];
-        NSLog(@"re-upload trying");
-    }
-}
+//- (void)downloadDB{
+//    
+//    if (!restClient) {
+//        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+//    }
+//    restClient.delegate = self;
+//    
+//    NSString * directory = @"/download/";
+//    //NSLog(@"loading metadata");
+//    [restClient loadMetadata:directory];
+//    
+//}
+//
+//- (void)uploadDB{
+//    
+//    if (!restClient) {
+//        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+//    }
+//    restClient.delegate = self;
+//    
+//    filemgr = [NSFileManager defaultManager];
+//    
+//    NSString *destDir = @"/upload/";
+//    
+//    NSArray * filelist= [filemgr contentsOfDirectoryAtPath:docPath error:nil];
+//    
+//    NSMutableArray * answerFiles = [[NSMutableArray alloc] init];
+//    
+//    for (NSString * fileName in filelist){  //pick out the .png and .txt files, but not the solutions that are named Silde.
+//        if([fileName hasSuffix:@".png"]||[fileName hasSuffix:@".txt"]){
+//            if(! ([fileName hasPrefix:@"Slide"]||[fileName hasPrefix:@"aslide"]))
+//                [answerFiles addObject:fileName];
+//        }
+//    }
+//    
+//    
+//    for(NSString * existing in answerFiles){
+//        uploadCount++;
+//        NSString * filePathName = [docPath stringByAppendingPathComponent:existing];
+//        [restClient uploadFile:existing toPath:destDir withParentRev:nil  fromPath:filePathName];
+//    }  // end of step through 
+//    
+//    if ([answerFiles count] ==0){
+//        self.problemLabel.text = @"nothing left to upload.";
+//        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
+//        
+//    }
+//}
+//
+//- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
+//    NSLog(@"There was an error loading the file - %@", error);
+//    NSLog(@"from %@",error.userInfo.description);
+//    
+//    NSString * reloadPath;
+//    NSString * reloadDestinationPath;
+//    
+//    for (id key in error.userInfo){
+//        NSLog(@"key, %@",key);
+//        NSLog(@"object, %@",[error.userInfo objectForKey:key]);
+//        if ([key isEqualToString:@"path"])
+//            reloadPath = [error.userInfo objectForKey:key];
+//        
+//        if ([key isEqualToString:@"destinationPath"])
+//            reloadDestinationPath = [error.userInfo objectForKey:key];
+//        
+//    }
+//    
+//    
+//    if ([reloadPath length]>1 && [reloadDestinationPath length] > 1){
+//        [restClient loadFile:reloadDestinationPath intoPath:reloadPath];
+//        NSLog(@"re-download trying");
+//    }
+//}
+//
+//
+//
+//- (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
+//    downloadCount = 0;
+//    
+//    NSLog(@"loaded metadata");
+//    
+//    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString * documentsDirectory = [paths objectAtIndex:0];
+//    
+//    NSError * error;
+//    
+//    if (metadata.isDirectory) {
+//        for (DBMetadata *file in metadata.contents) {
+//            downloadCount++;
+//            NSString * dropboxPath = [@"/download/" stringByAppendingString:file.filename];
+//            NSString * localPath = [documentsDirectory stringByAppendingPathComponent:file.filename];
+//            [filemgr removeItemAtPath:localPath error:&error];
+//            [restClient loadFile:dropboxPath intoPath:localPath];
+//            NSLog(@" loading files:  %i",downloadCount);
+//        }
+//    }//if not a directory, in wrong place.
+//    if(downloadCount == 0){
+//        self.problemLabel.text = @"nothing left to download";
+//        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
+//    }
+//}
+//
+//
+//
+//- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)localPath {
+//    NSLog(@"got one.");
+//    downloadCount--;
+//    if(downloadCount == 0){
+//        self.problemLabel.text = @"download complete";
+//        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
+//    }
+//}
+//
+//
+//- (void)restClient:(DBRestClient*)client uploadedFile:(NSString *)destPath from:(NSString *)srcPath {
+//    didUpload ++;
+//    
+//    NSError * error;
+//    [filemgr removeItemAtPath:srcPath error:&error];
+//    
+//    if(error)
+//        NSLog(@"error: %@",error);
+//    
+//    if (didUpload >= uploadCount){
+//        self.problemLabel.text = @"upload complete";
+//        [self performSelector:@selector(leaveNoLog) withObject:self afterDelay:0.0];
+//    }
+//}
+//
+//
+//- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
+//    NSLog(@"Error loading metadata: %@", error);
+//    [[DBSession sharedSession] unlinkAll]; 
+//    restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+//    restClient.delegate = self;
+//    
+//    NSString * directory = @"/download/";
+//    //NSLog(@"loading metadata");
+//    [restClient loadMetadata:directory];
+//    
+//}
+//
+//- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError *)error{
+//    NSLog(@"Upload error - %@", error);
+//    NSLog(@"from %@",error.userInfo.description);
+//    
+//    NSString * reloadSourcePath;
+//    NSString * reloadDestinationPath;
+//    NSString *destDir = @"/upload/";
+//    
+//    for (id key in error.userInfo){
+//        NSLog(@"key, %@",key);
+//        NSLog(@"object, %@",[error.userInfo objectForKey:key]);
+//        if ([key isEqualToString:@"sourcePath"])
+//            reloadSourcePath = [error.userInfo objectForKey:key];
+//        
+//        if ([key isEqualToString:@"destinationPath"])
+//            reloadDestinationPath = [error.userInfo objectForKey:key];
+//    }
+//    
+//    
+//    if ([reloadSourcePath length]>1 && [reloadDestinationPath length] > 1){
+//        [restClient uploadFile:[reloadSourcePath lastPathComponent] toPath:destDir withParentRev:nil  fromPath:reloadSourcePath];
+//        NSLog(@"re-upload trying");
+//    }
+//}
 
 
 @end

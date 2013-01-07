@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class ATBoringViewController;
+@class startScreen;
 
 @interface ATBoringAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) ATBoringViewController *viewController;
+@property (strong) NSMutableArray * allQnsAndPaths;
+@property (strong, nonatomic) startScreen *viewController;
+@property (strong, nonatomic) UINavigationController * navController;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "ATBoringAppDelegate.h"
 #import "ATBoringViewController.h"
+#import "startScreen.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 
@@ -15,21 +16,26 @@
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+@synthesize allQnsAndPaths;
+@synthesize navController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.viewController = [[ATBoringViewController alloc] initWithNibName:@"ATBoringViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
     DBSession* dbSession = [[DBSession alloc]
-                                 initWithAppKey:@"joublovg3fhl8mf"     //atr dropbox
-                                 appSecret:@"p38y93hldvff5zz"
+                            initWithAppKey:@"1clhjnwu2ecyv61"     //thad dropbox
+                            appSecret:@"qa49ca089iqbwni"
                             root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox    
     [DBSession setSharedSession:dbSession];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
+    self.viewController = [[startScreen alloc] initWithNibName:@"startScreen" bundle:nil];
+    self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
+    
+    UIViewController * rootView = [[startScreen alloc] init];
+    self.navController = [[UINavigationController alloc] initWithRootViewController:rootView];
+    
     return YES;
 }
 

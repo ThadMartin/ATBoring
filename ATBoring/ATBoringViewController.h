@@ -8,18 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "scratchPadDraw.h"
-#import <QuartzCore/QuartzCore.h>
+//#import <QuartzCore/QuartzCore.h>
 #import "ATBoringAppDelegate.h"
-#import <DropboxSDK/DropboxSDK.h>
+//#import <DropboxSDK/DropboxSDK.h>
 
-@interface ATBoringViewController : UIViewController <DBRestClientDelegate>
+@interface ATBoringViewController : UIViewController // <DBRestClientDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *problemLabel;
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
 - (IBAction)clearButtonPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 - (IBAction)continueButtonPressed:(id)sender;
-//@property(nonatomic, strong) NSMutableArray *problemList;
+@property(weak, nonatomic) NSString * infile;
 //@property (nonatomic, strong) NSMutableDictionary *problemListDict;
 
 @end
